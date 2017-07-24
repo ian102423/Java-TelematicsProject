@@ -1,9 +1,13 @@
+import java.io.IOException;
 import java.util.Scanner;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.io.File;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
         VehicleInfo vehInfo = new VehicleInfo();
         TelematicsService telSer = new TelematicsService();
 
@@ -29,23 +33,23 @@ public class Main {
 
         telSer.report(vehInfo);
 
-//        File file = new File(".");
-//        for (File f : file.listFiles()) {
-//            if (f.getName().endsWith(".json")) {
-//                // Now you have a File object named "f".
-//                // You can use this to create a new instance of Scanner
-//
-//
-//            }
-//        }
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        String json = mapper.writeValueAsString(vehicleInfo);
-//
-//        JSON to Java
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        VehicleInfo vi = mapper.readValue(json, VehicleInfo.class);
+        File file = new File(".");
+        for (File f : file.listFiles()) {
+            if (f.getName().endsWith(".json")) {
+                // Now you have a File object named "f".
+                // You can use this to create a new instance of Scanner
+
+            }
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(vehInfo);
+
+        // JSON to Java
+
+        VehicleInfo vi = mapper.readValue(json, VehicleInfo.class);
+
+        // EXTRA
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
