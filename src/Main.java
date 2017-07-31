@@ -3,53 +3,43 @@ import java.util.Scanner;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.io.File;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        VehicleInfo vehInfo = new VehicleInfo();
         TelematicsService telSer = new TelematicsService();
+        VehicleInfo vehInfo = new VehicleInfo();
 
-        Scanner scanner1 = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
-        int whatIsVIN;
-        double whatIsOdo;
-        double whatIsConsum;
-        double whatIsOdoR;
-        double whatIsEngine;
+        System.out.println("Put VIN#");
+        String input1 = scanner.next();
+        System.out.println("Put Odometer");
+        String input2 = scanner.next();
+        System.out.println("Put Consumption");
+        String input3 = scanner.next();
+        System.out.println("Put last Oil change");
+        String input4 = scanner.next();
+        System.out.println("Put Engine Liters");
+        String input5 = scanner.next();
 
-        whatIsVIN = scanner1.nextInt();
-        whatIsOdo = scanner1.nextDouble();
-        whatIsConsum = scanner1.nextDouble();
-        whatIsOdoR = scanner1.nextDouble();
-        whatIsEngine = scanner1.nextDouble();
-
-        vehInfo.setVIN(whatIsVIN);
-        vehInfo.setOdometer(whatIsOdo);
-        vehInfo.setConsumption(whatIsConsum);
-        vehInfo.setOdometerR(whatIsOdoR);
-        vehInfo.setEngine(whatIsEngine);
+        vehInfo.setVIN(Integer.parseInt(input1));
+        vehInfo.setOdometer(Double.parseDouble(input2));
+        vehInfo.setConsumption(Double.parseDouble(input3));
+        vehInfo.setOdometerR(Double.parseDouble(input4));
+        vehInfo.setEngine(Double.parseDouble(input5));
 
         telSer.report(vehInfo);
+
 
         File file = new File(".");
         for (File f : file.listFiles()) {
             if (f.getName().endsWith(".json")) {
                 // Now you have a File object named "f".
                 // You can use this to create a new instance of Scanner
-
             }
         }
 
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(vehInfo);
-
-        // JSON to Java
-
-        VehicleInfo vi = mapper.readValue(json, VehicleInfo.class);
-
-        // EXTRA
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
