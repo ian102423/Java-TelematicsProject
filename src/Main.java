@@ -23,7 +23,7 @@ public class Main {
         System.out.println("Put Engine Liters");
         String input5 = scanner.next();
 
-        vehInfo.setVIN(Integer.parseInt(input1));
+        vehInfo.setVIN(input1);
         vehInfo.setOdometer(Double.parseDouble(input2));
         vehInfo.setConsumption(Double.parseDouble(input3));
         vehInfo.setOdometerR(Double.parseDouble(input4));

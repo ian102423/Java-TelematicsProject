@@ -1,21 +1,16 @@
 public class VehicleInfo {
-//    VIN (Vehicle Identification Number)
-//    odometer (miles traveled)
-//    consumption (gallons of gas consumed)
-//    odometer reading for last oil change
-//    engine size in liters (e.g. 2.0, 4.5)
 
-    int VIN;
+    String VIN;
     double odometer;
     double consumption;
     double odometerR;
     double engine;
 
-    public int getVIN() {
+    public String getVIN() {
         return VIN;
     }
 
-    public void setVIN(int VIN) {
+    public void setVIN(String VIN) {
         this.VIN = VIN;
     }
 
