@@ -46,9 +46,9 @@ public class VehicleInfo {
         this.engine = engine;
     }
 
-    public double getMilesPerGallon() {
-        return getOdometer() / getConsumption();
-    }
+//    public double getMilesPerGallon() {
+//        return getOdometer() / getConsumption();
+//    }
 
     ;
 

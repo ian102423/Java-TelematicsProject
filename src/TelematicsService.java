@@ -55,47 +55,47 @@ public class TelematicsService {
         }
 
         for (VehicleInfo Info : vehicleInfos) {
+            double milesPerGallon = vehicleInfo.getOdometer() / vehicleInfo.getConsumption();
             totOdometer += Info.getOdometer();
             totConsumption += Info.getConsumption();
             totEngineSize += Double.valueOf(Info.getEngine());
             totLastOilChange += Info.getOdometerR();
-            totMpg += Info.getMilesPerGallon();
+            totMpg += milesPerGallon;
+
+
+            int total = vehicleInfos.size();
+            String html = Dashboard.dashboardTop.replace("%count%", String.valueOf(total));
+            html = html.replace("%odometer%", String.format("%.1f", totOdometer / total));
+            html = html.replace("%consumption%", String.format("%.1f", totConsumption / total));
+            html = html.replace("%lastoilchange%", String.format("%.1f", totLastOilChange / total));
+            html = html.replace("%enginesize%", String.format("%.1f", totEngineSize / total));
+            html = html.replace("%mpg%", String.format("%.1f", totMpg / total));
+
+            StringBuilder htmlPage = new StringBuilder(html);
+
+                html = Dashboard.dashboardTable.replace("%vin%", Info.getVIN());
+                html = html.replace("%odometer%", String.valueOf(Info.getOdometer()));
+                html = html.replace("%consumption%", String.valueOf(Info.getConsumption()));
+                html = html.replace("%lastoilchange%", String.valueOf(Info.getOdometerR()));
+                html = html.replace("%enginesize%", String.format("%.1f", Double.valueOf(Info.getEngine())));
+                html = html.replace("%mpg%", String.format("%.1f", milesPerGallon));
+
+                htmlPage.append(html);
+
+
+            htmlPage.append(Dashboard.dashboardBottom);
+
+            try (PrintWriter out = new PrintWriter("Dashboard.html")) {
+                out.println(htmlPage.toString());
+                out.flush();
+            } catch (FileNotFoundException e) {
+                System.out.println("Caught FileNotFoundException (could not write dashbord.html) " + e.getMessage());
+            }
+
+            System.out.println("VIN: " + vehicleInfo.getVIN() + "\nOdometer: " +
+                    vehicleInfo.getOdometer() + "\nConsumption: " + vehicleInfo.getConsumption() + "\nLast Oil Change: "
+                    + vehicleInfo.getOdometerR() + "\nEngine Liters: " + vehicleInfo.getEngine() + "\nMPG: " + milesPerGallon);
         }
-
-        int total = vehicleInfos.size();
-        String html = Dashboard.dashboardTop.replace("%count%", String.valueOf(total));
-        html = html.replace("%odometer%", String.format("%.1f", totOdometer / total));
-        html = html.replace("%consumption%", String.format("%.1f", totConsumption / total));
-        html = html.replace("%lastoilchange%", String.format("%.1f", totLastOilChange / total));
-        html = html.replace("%enginesize%", String.format("%.1f", totEngineSize / total));
-        html = html.replace("%mpg%", String.format("%.1f", totMpg / total));
-
-        StringBuilder htmlPage = new StringBuilder(html);
-
-        for (VehicleInfo Info : vehicleInfos) {
-            html = Dashboard.dashboardTable.replace("%vin%", Info.getVIN());
-            html = html.replace("%odometer%", String.valueOf(Info.getOdometer()));
-            html = html.replace("%consumption%", String.valueOf(Info.getConsumption()));
-            html = html.replace("%lastoilchange%", String.valueOf(Info.getOdometerR()));
-            html = html.replace("%enginesize%", String.format("%.1f", Double.valueOf(Info.getEngine())));
-            html = html.replace("%mpg%", String.format("%.1f", Info.getMilesPerGallon()));
-
-            htmlPage.append(html);
-        }
-
-        htmlPage.append(Dashboard.dashboardBottom);
-
-        try (PrintWriter out = new PrintWriter("Dashboard.html")) {
-            out.println(htmlPage.toString());
-            out.flush();
-        } catch (FileNotFoundException e) {
-            System.out.println("Caught FileNotFoundException (could not write dashbord.html) " + e.getMessage());
-        }
-
-        System.out.println("VIN: " + vehicleInfo.getVIN() + "\nOdometer: " +
-                vehicleInfo.getOdometer() + "\nConsumption: " + vehicleInfo.getConsumption() + "\nLast Oil Change: "
-                + vehicleInfo.getOdometerR() + "\nEngine Liters: " + vehicleInfo.getEngine() + "\nMPG: " + vehicleInfo.getMilesPerGallon());
-
 
     }
 }
